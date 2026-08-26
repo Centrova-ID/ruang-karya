@@ -1,42 +1,69 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+// Design direction: Play Lab — bento-grid editorial education site with ink navy, chalk white, marigold, cobalt, and coral.
+// Keep interactions tactile, direct, and lightly animated; preserve unusual section rhythm across pages.
+import { useEffect, useState } from "react";
+import { Link, Route, Switch, useLocation } from "wouter";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUpRight, Menu, X, ArrowDown, MapPin, Mail, Instagram, Linkedin, Sparkles, Wrench, Compass, Users, CalendarDays } from "lucide-react";
 
+const ASSETS = {
+  hero: "/manus-storage/ruang-karya-hero_cd738edd.png",
+  students: "/manus-storage/ruang-karya-students_e017677a.png",
+  mentor: "/manus-storage/ruang-karya-mentor_ca80ac5c.png",
+  space: "/manus-storage/ruang-karya-space_1e1fe209.png",
+  mark: "/manus-storage/ruang-karya-mark_6716cee1.png",
+};
 
-function Router() {
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+const nav = [
+  ["Tentang", "/tentang"], ["Program", "/program"], ["Cara Belajar", "/cara-belajar"], ["Cerita", "/cerita"], ["Kontak", "/kontak"],
+] as const;
+
+function Logo({ light = false }: { light?: boolean }) {
+  return <Link href="/" className={`logo ${light ? "logo-light" : ""}`}><img src={ASSETS.mark} alt="" /><span>RUANG<br /><b>KARYA</b></span></Link>;
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
+function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [location] = useLocation();
+  useEffect(() => { const fn = () => setScrolled(window.scrollY > 30); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
+  useEffect(() => setOpen(false), [location]);
+  return <>
+    <header className={`site-header ${scrolled || location !== "/" ? "header-solid" : ""}`}>
+      <Logo light={!scrolled && location === "/"} />
+      <nav className="desktop-nav">{nav.map(([label, href]) => <Link key={href} href={href} className={location === href ? "active" : ""}>{label}</Link>)}</nav>
+      <Link href="/kontak" className="header-cta">Daftar kunjungan <ArrowUpRight size={16} /></Link>
+      <button className="menu-btn" onClick={() => setOpen(!open)} aria-label="Buka menu">{open ? <X /> : <Menu />}</button>
+    </header>
+    <AnimatePresence>{open && <motion.div initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} className="mobile-menu">
+      <div className="mobile-menu-inner"><Logo />{nav.map(([label, href]) => <Link key={href} href={href}>{label}<ArrowUpRight size={18} /></Link>)}<Link href="/kontak" className="mobile-cta">Mulai percakapan <ArrowUpRight size={18} /></Link></div>
+    </motion.div>}</AnimatePresence>
+  </>;
 }
 
-export default App;
+function Footer() { return <footer className="footer"><div className="footer-top"><div><Logo /><p className="footer-lead">Tempat untuk belajar dengan tangan, kepala, dan rasa ingin tahu yang utuh.</p></div><div className="footer-links"><div><span>Jelajah</span><Link href="/tentang">Tentang kami</Link><Link href="/program">Program belajar</Link><Link href="/cara-belajar">Cara belajar</Link></div><div><span>Temui kami</span><p>Jl. Kemang Timur No. 17<br />Jakarta Selatan 12730</p><a href="mailto:halo@ruangkarya.id">halo@ruangkarya.id</a></div></div></div><div className="footer-bottom"><span>© 2026 Ruang Karya Institute</span><span>Ruang aman untuk ide yang belum selesai.</span><div className="socials"><Instagram size={17} /><Linkedin size={17} /></div></div></footer> }
+
+function Shell({ children }: { children: React.ReactNode }) { return <div className="app"><Header /><main>{children}</main><Footer /></div> }
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) { return <motion.div className={className} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: .55, delay, ease: [.23, 1, .32, 1] }}>{children}</motion.div> }
+function Button({ children, href = "/kontak", tone = "dark" }: { children: React.ReactNode; href?: string; tone?: "dark" | "yellow" | "blue" }) { return <Link href={href} className={`btn btn-${tone}`}>{children}<ArrowUpRight size={17} /></Link> }
+function PageIntro({ number, title, body, color = "yellow" }: { number: string; title: string; body: string; color?: string }) { return <section className={`page-intro ${color}`}><div className="container intro-grid"><span className="chapter">{number}</span><div><h1>{title}</h1><p>{body}</p></div></div></section> }
+function SectionLabel({ children }: { children: React.ReactNode }) { return <div className="section-label"><span></span>{children}</div> }
+
+function Home() { return <Shell><section className="hero"><div className="hero-image" style={{ backgroundImage: `url(${ASSETS.hero})` }}></div><div className="hero-overlay"></div><div className="container hero-content"><div className="hero-copy"><p className="hero-kicker">Institut vokasi untuk generasi yang ingin membuat</p><h1>Belajar yang<br /><em>bisa disentuh.</em></h1><p className="hero-text">Ruang Karya adalah sekolah vokasi kecil dengan cara pandang besar: belajar lewat proyek nyata, mentor yang hadir, dan keberanian untuk mencoba ulang.</p><Button tone="yellow" href="/program">Lihat program kami</Button></div><div className="hero-note"><span>01 — 06</span><p>Studio terbuka<br />untuk ide baru</p></div></div><div className="hero-scroll"><ArrowDown size={18} /> scroll pelan-pelan</div></section>
+<section className="manifesto section-pad"><div className="container manifesto-grid"><Reveal><SectionLabel>01 / Kenapa Ruang Karya</SectionLabel><h2>Kami tidak menyiapkan murid untuk menghafal masa depan.</h2></Reveal><Reveal delay={.1} className="manifesto-aside"><p>Kami menyiapkan mereka untuk ikut membuatnya. Sejak 2018, kami membuka ruang belajar untuk anak muda yang ingin bekerja dengan rasa ingin tahu, bukan sekadar checklist.</p><Button href="/tentang">Kenali cara kami</Button></Reveal></div></section>
+<section className="bento-section"><div className="container bento-grid"><Reveal className="bento-card bento-yellow"><span className="big-number">06</span><p>program belajar berbasis proyek</p><ArrowUpRight /></Reveal><Reveal delay={.08} className="bento-card bento-photo"><img src={ASSETS.students} alt="Mahasiswa Ruang Karya bekerja bersama" /><div className="photo-caption">Meja kerja, bukan bangku kuliah.</div></Reveal><Reveal delay={.16} className="bento-card bento-blue"><Sparkles /><h3>Belajar dari yang benar-benar mengerjakan.</h3><p>Mentor kami datang dari studio, bengkel, dapur, dan lapangan—membawa cerita yang belum selesai.</p><Link href="/cara-belajar">Lihat cara belajar <ArrowUpRight size={16} /></Link></Reveal><Reveal delay={.24} className="bento-card bento-coral"><span className="quote-mark">“</span><p>Di sini, pertanyaan bagus lebih penting dari jawaban cepat.</p><span className="quote-by">— Dira, alumni 2024</span></Reveal></div></section>
+<section className="wide-story"><div className="container wide-story-grid"><div className="story-image"><img src={ASSETS.space} alt="Studio Ruang Karya" /></div><div className="story-copy"><SectionLabel>02 / Ruang untuk bertumbuh</SectionLabel><h2>Satu studio.<br /><span>Banyak arah.</span></h2><p>Di lantai dua sebuah bangunan lama di Kemang, kami merawat studio yang terasa seperti persilangan antara ruang kelas, bengkel, dan ruang tamu.</p><Button href="/cara-belajar" tone="blue">Masuk ke studionya</Button></div></div></section>
+<section className="closing-cta"><div className="container closing-grid"><h2>Ide kamu<br /><span>boleh berantakan.</span></h2><div><p>Yang penting, ada ruang untuk mengerjakannya dengan serius.</p><Button href="/kontak" tone="yellow">Ayo berkenalan</Button></div></div></section></Shell> }
+
+function About() { return <Shell><PageIntro number="01" title="Sekolah kecil untuk rasa ingin tahu yang besar." body="Ruang Karya lahir dari satu pertanyaan: mengapa belajar harus terasa jauh dari kehidupan yang ingin kita jalani?" /><section className="section-pad about-story"><div className="container about-grid"><Reveal><img className="portrait" src={ASSETS.mentor} alt="Mentor Ruang Karya" /></Reveal><Reveal delay={.12}><SectionLabel>Sejak 2018 / Kemang, Jakarta</SectionLabel><h2>Kami percaya tangan juga punya cara berpikir.</h2><p>Ruang Karya dibangun oleh praktisi dari dunia desain, teknologi, dan pendidikan. Kami bertemu karena sama-sama melihat ada yang hilang: ruang belajar yang cukup dekat dengan kenyataan, tapi cukup aman untuk gagal.</p><p>Hari ini, studio kami diisi oleh 48 siswa, 12 mentor, dan puluhan prototipe yang tidak selalu berhasil—dan justru karena itu, layak dibicarakan.</p></Reveal></div></section><section className="values-band"><div className="container"><SectionLabel>Yang kami jaga</SectionLabel><div className="values-grid"><div><span>01</span><h3>Berani mulai</h3><p>Setiap proyek dimulai sebelum semuanya terasa siap.</p></div><div><span>02</span><h3>Serius mengamati</h3><p>Ide yang baik tumbuh dari perhatian pada hal-hal kecil.</p></div><div><span>03</span><h3>Berbagi meja</h3><p>Karya menjadi lebih kuat ketika dikerjakan bersama.</p></div></div></div></section></Shell> }
+
+function Programs() { const items = [{n:"01",t:"Creative Technology",d:"Merancang pengalaman digital yang terasa manusiawi—dari riset sampai prototipe.",c:"yellow"},{n:"02",t:"Visual Storytelling",d:"Belajar membaca dunia lewat kamera, kata, dan sudut pandang yang personal.",c:"blue"},{n:"03",t:"Product & Space",d:"Mengubah masalah sehari-hari menjadi benda dan ruang yang ingin dipakai.",c:"coral"},{n:"04",t:"Food & Culture",d:"Menyelidiki hubungan antara rasa, tempat, dan cerita yang kita bawa pulang.",c:"cream"}]; return <Shell><PageIntro number="02" title="Program yang berangkat dari rasa ingin tahu." body="Empat studio intensif. Satu tahun untuk mencoba banyak peran, lalu menemukan cara kerjamu sendiri." color="blue" /><section className="section-pad programs-layout"><div className="container programs-mosaic"><div className="program-list">{items.map((item,i)=><Reveal key={item.n} delay={i*.08}><Link href="/kontak" className={`program-row ${item.c}`}><span className="program-no">{item.n}</span><div><h2>{item.t}</h2><p>{item.d}</p></div><ArrowUpRight className="program-arrow" /></Link></Reveal>)}</div><Reveal delay={.2} className="program-aside"><img src={ASSETS.mentor} alt="Mentor sedang mendampingi proyek siswa" /><div className="program-aside-note"><span>Studio note / 01</span><p>“Kamu tidak harus memilih satu versi dirimu di hari pertama.”</p></div><div className="stamp"><img src={ASSETS.mark} alt="" /><span>RUANG<br />UNTUK<br />MENCOBA</span></div></Reveal></div></section><section className="apply-strip"><div className="container apply-grid"><div><SectionLabel>Intake berikutnya</SectionLabel><h2>Agustus — Desember 2026</h2></div><Button tone="yellow">Tanya soal pendaftaran</Button></div></section></Shell> }
+
+function Method() { return <Shell><PageIntro number="03" title="Cara belajar kami dimulai dari meja kerja." body="Tidak ada kelas pasif. Setiap minggu punya pertanyaan, percobaan, dan sesuatu yang bisa dibawa pulang." color="coral" /><section className="section-pad method"><div className="container"><div className="method-intro"><SectionLabel>Ritme satu studio</SectionLabel><h2>Empat langkah.<br /><span>Bukan empat dinding.</span></h2></div><div className="method-steps">{[["01","Amati","Mulai dari hal yang dekat: kebiasaan, benda, orang, dan cerita di sekitarmu."],["02","Buat","Bawa pertanyaanmu ke meja. Sketsa, rakit, potret, tulis—jangan menunggu sempurna."],["03","Uji","Tunjukkan versi pertamamu kepada orang lain. Dengarkan, catat, ubah."],["04","Bagikan","Ceritakan prosesnya, bukan hanya hasil akhirnya. Karena proses adalah bagian dari karya."]].map(([n,t,d],i)=><Reveal key={n} delay={i*.08} className="method-step"><span>{n}</span><div><h3>{t}</h3><p>{d}</p></div><ArrowDown /></Reveal>)}</div></div></section><section className="photo-break"><img src={ASSETS.space} alt="Interior studio Ruang Karya" /><div>Ruang belajar yang<br /><em>boleh berisik.</em></div></section></Shell> }
+
+function Stories() { return <Shell><PageIntro number="04" title="Yang dibuat setelah lulus, tidak pernah benar-benar selesai." body="Cerita alumni kami bukan garis akhir. Ia adalah bukti bahwa cara melihat bisa ikut berubah." color="yellow" /><section className="section-pad stories"><div className="container"><SectionLabel>Catatan dari meja kerja</SectionLabel><div className="stories-grid"><Reveal className="story-feature"><img src={ASSETS.students} alt="Alumni berkolaborasi" /><div><span>Studio Note / 04.26</span><h2>“Aku datang untuk belajar desain. Pulang dengan keberanian untuk bertanya.”</h2><p>— Naya, Visual Storytelling 2023</p></div></Reveal><Reveal delay={.12} className="story-card"><span>02 / 03</span><h3>Alumni kami bekerja di studio kreatif, membangun bisnis kecil, dan membuat ruang belajar baru di kota mereka.</h3><Link href="/kontak">Baca catatan lainnya <ArrowUpRight size={16} /></Link></Reveal></div></div></section></Shell> }
+
+function Contact() { return <Shell><PageIntro number="05" title="Mampir dulu. Kita bicarakan pelan-pelan." body="Datang untuk melihat studio, bertanya soal program, atau sekadar mencari tahu apakah Ruang Karya terasa seperti tempatmu." color="coral" /><section className="contact-section"><div className="container contact-editorial"><div className="contact-copy"><div className="contact-photo"><img src={ASSETS.space} alt="Studio Ruang Karya yang terbuka untuk kunjungan" /><span>Jl. Kemang Timur 17 / Pintu masuk studio</span></div><SectionLabel>Temui kami</SectionLabel><h2>Pintu kami terbuka<br /><span>Senin—Jumat.</span></h2><div className="contact-detail"><MapPin /><p>Jl. Kemang Timur No. 17<br />Jakarta Selatan 12730</p></div><div className="contact-detail"><Mail /><p>halo@ruangkarya.id<br />+62 21 719 2026</p></div></div><form className="contact-form" onSubmit={e => { e.preventDefault(); alert("Terima kasih — pesanmu sudah tercatat. Kami akan menghubungi dalam 1–2 hari kerja."); }}><div className="form-mark"><img src={ASSETS.mark} alt="" /><span>Tulis saja apa yang ingin kamu tahu.</span></div><label>Namamu<input required placeholder="Tulis nama lengkap" /></label><label>Email<input required type="email" placeholder="kamu@email.com" /></label><label>Apa yang ingin kamu bicarakan?<textarea required placeholder="Ceritakan sedikit..." /></label><button className="btn btn-dark" type="submit">Kirim pesan <ArrowUpRight size={17} /></button></form></div></section></Shell> }
+
+function NotFound() { return <Shell><div className="not-found"><h1>Halaman ini sedang mencari bentuk.</h1><Button href="/">Kembali ke studio</Button></div></Shell> }
+function Router() { return <Switch><Route path="/" component={Home} /><Route path="/tentang" component={About} /><Route path="/program" component={Programs} /><Route path="/cara-belajar" component={Method} /><Route path="/cerita" component={Stories} /><Route path="/kontak" component={Contact} /><Route component={NotFound} /></Switch> }
+export default function App() { return <Router /> }
