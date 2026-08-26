@@ -219,6 +219,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        index: path.resolve(import.meta.dirname, "client/index.html"),
+        tentang: path.resolve(import.meta.dirname, "client/tentang.html"),
+        program: path.resolve(import.meta.dirname, "client/program.html"),
+        caraBelajar: path.resolve(import.meta.dirname, "client/cara-belajar.html"),
+        cerita: path.resolve(import.meta.dirname, "client/cerita.html"),
+        kontak: path.resolve(import.meta.dirname, "client/kontak.html"),
+      },
+    },
   },
   server: {
     port: 3000,
