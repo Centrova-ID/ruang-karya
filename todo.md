@@ -11,3 +11,9 @@
 - [x] Create a distinct navbar treatment without moving the logo.
 - [x] Restyle Daftar Kunjungan and synchronize similar CTA buttons.
 - [x] Verify desktop and mobile placement, contrast, and link behavior.
+
+## Navbar micro-adjustments
+
+- [x] Remove the per-menu border animation from navbar items.
+- [x] Increase the Daftar Kunjungan icon size and visual balance.
+- [x] Verify desktop and mobile navbar presentation.
