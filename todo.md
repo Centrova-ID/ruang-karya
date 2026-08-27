@@ -37,3 +37,8 @@
 - [ ] Add Centrova developer credit linking to the requested URL in the footer.
 - [ ] Finish optimized raw GitHub image migration without using File Storage.
 - [ ] Validate SEO files, asset URLs, links, and production build.
+
+## Vercel deployment config
+
+- [x] Add vercel.json for the multi-page Vite build.
+- [x] Verify build output and direct page routes on Vercel-compatible paths.
