@@ -66,3 +66,9 @@
 - [x] Define clean public paths for home, about, programs, method, stories, and contact.
 - [x] Update all internal links, canonical URLs, sitemap entries, and Vercel rewrites.
 - [x] Verify clean paths, 404 fallback, and production build.
+
+## 404 overlap correction
+
+- [x] Separate the oversized 404 marker from the headline on desktop.
+- [x] Prevent collision in the mobile 404 composition.
+- [x] Verify the corrected error page and production build.
