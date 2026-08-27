@@ -42,3 +42,9 @@
 
 - [x] Add vercel.json for the multi-page Vite build.
 - [x] Verify build output and direct page routes on Vercel-compatible paths.
+
+## Custom 404 page
+
+- [x] Create a branded 404 page with clear recovery actions.
+- [x] Configure Vercel to serve the custom page for unknown URLs.
+- [x] Verify the error page at desktop/mobile sizes and run the production build.

@@ -222,6 +222,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         index: path.resolve(import.meta.dirname, "client/index.html"),
+        notFound: path.resolve(import.meta.dirname, "client/404.html"),
         tentang: path.resolve(import.meta.dirname, "client/tentang.html"),
         program: path.resolve(import.meta.dirname, "client/program.html"),
         caraBelajar: path.resolve(import.meta.dirname, "client/cara-belajar.html"),
