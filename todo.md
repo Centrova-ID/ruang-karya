@@ -84,3 +84,9 @@
 - [x] Remove the duplicated logo inside the mobile drawer.
 - [x] Lock body scroll while the mobile drawer is open and restore it on close.
 - [x] Verify mobile drawer and desktop navigation behavior.
+
+## Responsive image performance
+
+- [x] Define display-size variants for hero, editorial, card, and portrait images.
+- [x] Generate compressed Pica variants and add responsive srcset markup.
+- [x] Verify browser-sized image selection and production build.
