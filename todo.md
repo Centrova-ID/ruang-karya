@@ -48,3 +48,9 @@
 - [x] Create a branded 404 page with clear recovery actions.
 - [x] Configure Vercel to serve the custom page for unknown URLs.
 - [x] Verify the error page at desktop/mobile sizes and run the production build.
+
+## Favicon
+
+- [x] Prepare a web-safe favicon asset from the Ruang Karya mark.
+- [x] Add favicon links to every static HTML entry page.
+- [x] Verify favicon output and production build.
