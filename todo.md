@@ -72,3 +72,9 @@
 - [x] Separate the oversized 404 marker from the headline on desktop.
 - [x] Prevent collision in the mobile 404 composition.
 - [x] Verify the corrected error page and production build.
+
+## Bento blue card overlap correction
+
+- [x] Separate the blue card description and link with a non-overlapping layout.
+- [x] Preserve readable spacing on mobile and desktop.
+- [x] Verify the corrected card and production build.
