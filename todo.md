@@ -54,3 +54,9 @@
 - [x] Prepare a web-safe favicon asset from the Ruang Karya mark.
 - [x] Add favicon links to every static HTML entry page.
 - [x] Verify favicon output and production build.
+
+## AOS scroll trigger correction
+
+- [x] Prevent AOS content from appearing as already revealed on initial page load.
+- [x] Tune viewport offset and smooth reveal timing for scroll entry.
+- [x] Verify initial load and scroll behavior on desktop and mobile.
