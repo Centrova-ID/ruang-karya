@@ -17,3 +17,23 @@
 - [x] Remove the per-menu border animation from navbar items.
 - [x] Increase the Daftar Kunjungan icon size and visual balance.
 - [x] Verify desktop and mobile navbar presentation.
+
+## GitHub raw image assets
+
+- [ ] Locate the five existing Ruang Karya image assets and inspect the connected repository remote.
+- [ ] Add image files to a stable repository asset directory and update all image source references.
+- [ ] Verify raw GitHub responses, page loading, and production build.
+
+## Raw GitHub image optimization
+
+- [ ] Generate web-optimized copies of the five images under the repository media limit.
+- [ ] Replace source references and remove oversized image copies before checkpointing.
+- [ ] Verify raw GitHub responses, visual loading, and production build.
+
+## SEO and developer attribution
+
+- [ ] Add per-page title, description, canonical URL, Open Graph, and structured data metadata.
+- [ ] Create sitemap.xml and robots.txt for ruangkarya.withcentrova.web.id.
+- [ ] Add Centrova developer credit linking to the requested URL in the footer.
+- [ ] Finish optimized raw GitHub image migration without using File Storage.
+- [ ] Validate SEO files, asset URLs, links, and production build.

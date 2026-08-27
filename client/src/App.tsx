@@ -7,12 +7,13 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { ArrowUpRight, Menu, X, ArrowDown, MapPin, Mail, Instagram, Linkedin, Sparkles, Wrench, Compass, Users, CalendarDays } from "lucide-react";
 
+const RAW_ASSET_BASE = "https://raw.githubusercontent.com/Centrova-ID/ruang-karya/main/github-assets";
 const ASSETS = {
-  hero: "/manus-storage/ruang-karya-hero_cd738edd.png",
-  students: "/manus-storage/ruang-karya-students_e017677a.png",
-  mentor: "/manus-storage/ruang-karya-mentor_ca80ac5c.png",
-  space: "/manus-storage/ruang-karya-space_1e1fe209.png",
-  mark: "/manus-storage/ruang-karya-mark_6716cee1.png",
+  hero: `${RAW_ASSET_BASE}/ruang-karya-hero.webp`,
+  students: `${RAW_ASSET_BASE}/ruang-karya-students.webp`,
+  mentor: `${RAW_ASSET_BASE}/ruang-karya-mentor.webp`,
+  space: `${RAW_ASSET_BASE}/ruang-karya-space.webp`,
+  mark: `${RAW_ASSET_BASE}/ruang-karya-mark.webp`,
 };
 
 function Link({ href, className = "", children }: { href: string; className?: string; children: React.ReactNode }) { return <a href={href} className={className}>{children}</a>; }
@@ -44,7 +45,7 @@ function Header() {
   </>;
 }
 
-function Footer() { return <footer className="footer"><div className="footer-top"><div><Logo /><p className="footer-lead">Tempat untuk belajar dengan tangan, kepala, dan rasa ingin tahu yang utuh.</p></div><div className="footer-links"><div><span>Jelajah</span><Link href="/tentang.html">Tentang kami</Link><Link href="/program.html">Program belajar</Link><Link href="/cara-belajar.html">Cara belajar</Link></div><div><span>Temui kami</span><p>Jl. Kemang Timur No. 17<br />Jakarta Selatan 12730</p><a href="mailto:halo@ruangkarya.id">halo@ruangkarya.id</a></div></div></div><div className="footer-bottom"><span>© 2026 Ruang Karya Institute</span><span>Ruang aman untuk ide yang belum selesai.</span><div className="socials"><Instagram size={17} /><Linkedin size={17} /></div></div></footer> }
+function Footer() { return <footer className="footer"><div className="footer-top"><div><Logo /><p className="footer-lead">Tempat untuk belajar dengan tangan, kepala, dan rasa ingin tahu yang utuh.</p></div><div className="footer-links"><div><span>Jelajah</span><Link href="/tentang.html">Tentang kami</Link><Link href="/program.html">Program belajar</Link><Link href="/cara-belajar.html">Cara belajar</Link></div><div><span>Temui kami</span><p>Jl. Kemang Timur No. 17<br />Jakarta Selatan 12730</p><a href="mailto:halo@ruangkarya.id">halo@ruangkarya.id</a></div></div></div><div className="footer-bottom"><span>© 2026 Ruang Karya Institute</span><span>Ruang aman untuk ide yang belum selesai.</span><a className="footer-credit" href="https://www.centrova.id/lanjutkan" target="_blank" rel="noreferrer">Developed by Centrova</a><div className="socials"><Instagram size={17} /><Linkedin size={17} /></div></div></footer> }
 
 function Shell({ children }: { children: React.ReactNode }) { return <div className="app"><Header /><main>{children}</main><Footer /></div> }
 function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) { return <div className={className}>{Children.map(children, (child, index) => isValidElement(child) ? cloneElement(child as React.ReactElement<any>, { "data-aos": "fade-up", "data-aos-delay": Math.round(delay * 1000 + index * 55), "data-aos-duration": 700, "data-aos-easing": "cubic-bezier(0.23, 1, 0.32, 1)", "data-aos-anchor-placement": "top-bottom" }) : child)}</div> }
