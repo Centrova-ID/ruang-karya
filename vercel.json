@@ -7,6 +7,11 @@
   "cleanUrls": false,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/tentang", "destination": "/tentang.html" },
+    { "source": "/program", "destination": "/program.html" },
+    { "source": "/cara-belajar", "destination": "/cara-belajar.html" },
+    { "source": "/cerita", "destination": "/cerita.html" },
+    { "source": "/kontak", "destination": "/kontak.html" },
     { "source": "/(.*)", "destination": "/404.html" }
   ],
   "headers": [

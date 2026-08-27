@@ -60,3 +60,9 @@
 - [x] Prevent AOS content from appearing as already revealed on initial page load.
 - [x] Tune viewport offset and smooth reveal timing for scroll entry.
 - [x] Verify initial load and scroll behavior on desktop and mobile.
+
+## Extensionless URLs
+
+- [x] Define clean public paths for home, about, programs, method, stories, and contact.
+- [x] Update all internal links, canonical URLs, sitemap entries, and Vercel rewrites.
+- [x] Verify clean paths, 404 fallback, and production build.
