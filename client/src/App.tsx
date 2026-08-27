@@ -32,6 +32,7 @@ function Header() {
   const location = window.location.pathname;
   useEffect(() => { const fn = () => setScrolled(window.scrollY > 30); window.addEventListener("scroll", fn); return () => window.removeEventListener("scroll", fn); }, []);
   useEffect(() => setOpen(false), [location]);
+  useEffect(() => { const bodyOverflow = document.body.style.overflow; const rootOverflow = document.documentElement.style.overflow; if (open) { document.body.style.overflow = "hidden"; document.documentElement.style.overflow = "hidden"; } return () => { document.body.style.overflow = bodyOverflow; document.documentElement.style.overflow = rootOverflow; }; }, [open]);
   return <>
     <header className={`site-header ${scrolled || location !== "/" ? "header-solid" : ""}`}>
       <Logo light={!scrolled && location === "/"} />
@@ -40,7 +41,7 @@ function Header() {
       <button className="menu-btn" onClick={() => setOpen(!open)} aria-label="Buka menu">{open ? <X /> : <Menu />}</button>
     </header>
     <AnimatePresence>{open && <motion.div initial={{ opacity: 0, y: -18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} className="mobile-menu">
-      <div className="mobile-menu-inner"><Logo />{nav.map(([label, href]) => <Link key={href} href={href}>{label}<ArrowUpRight size={18} /></Link>)}<Link href="/kontak" className="mobile-cta">Mulai percakapan <ArrowUpRight size={18} /></Link></div>
+      <div className="mobile-menu-inner">{nav.map(([label, href]) => <Link key={href} href={href}>{label}<ArrowUpRight size={18} /></Link>)}<Link href="/kontak" className="mobile-cta">Mulai percakapan <ArrowUpRight size={18} /></Link></div>
     </motion.div>}</AnimatePresence>
   </>;
 }

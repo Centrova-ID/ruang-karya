@@ -78,3 +78,9 @@
 - [x] Separate the blue card description and link with a non-overlapping layout.
 - [x] Preserve readable spacing on mobile and desktop.
 - [x] Verify the corrected card and production build.
+
+## Mobile navbar drawer correction
+
+- [x] Remove the duplicated logo inside the mobile drawer.
+- [x] Lock body scroll while the mobile drawer is open and restore it on close.
+- [x] Verify mobile drawer and desktop navigation behavior.
